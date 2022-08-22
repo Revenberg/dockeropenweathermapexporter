@@ -45,7 +45,6 @@ class AppMetrics:
 
         # Prometheus metrics to collect
         self.status = Info(PROMETHEUS_PREFIX + 'status', 'status')
-        self.detailed_status = Info(PROMETHEUS_PREFIX + 'detailed_status', 'detailed_status')
         self.wind_speed = Gauge(PROMETHEUS_PREFIX + 'wind_speed', 'wind_speed')
         self.wind_direction_deg = Gauge(PROMETHEUS_PREFIX + 'wind_direction_deg', 'wind_direction_deg')
         self.humidity = Gauge(PROMETHEUS_PREFIX + 'humidity', 'humidity')
@@ -54,8 +53,7 @@ class AppMetrics:
         self.clouds = Gauge(PROMETHEUS_PREFIX + 'clouds', 'clouds')
         self.sunrise = Gauge(PROMETHEUS_PREFIX + 'sunrise', 'sunrise')
         self.sunset = Gauge(PROMETHEUS_PREFIX + 'sunset', 'sunset')
-        self.weather_code = Gauge(PROMETHEUS_PREFIX + 'weather_code', 'weather_code')
-        self.weather_icon = Info(PROMETHEUS_PREFIX + 'weather_icon', 'weather_icon')
+        self.weather = Info(PROMETHEUS_PREFIX + 'weather_icon', 'weather_icon')
         self.visibility_distance = Gauge(PROMETHEUS_PREFIX + 'visibility_distance', 'visibility_distance')
         self.lastrain = Gauge(PROMETHEUS_PREFIX + 'lastrain', 'lastrain')
         self.lastsnow = Gauge(PROMETHEUS_PREFIX + 'lastsnow', 'lastsnow')
@@ -98,9 +96,8 @@ class AppMetrics:
 
         uvi = uvimgr.uvindex_around_coords(myLocation.lat, myLocation.lon )
 
-        self.location.info( location )
-        self.status.info(w.status)
-        self.detailed_status.info(w.detailed_status)
+        self.location.info( { 'location': location } )
+        self.status.info( { 'status': w.status, 'detaild_status': w.detailed_status })
         self.wind_speed.set(wind ["speed"])
         self.wind_direction_deg.set(wind ["deg"])
         self.humidity.set(w.humidity)
@@ -109,8 +106,7 @@ class AppMetrics:
         self.clouds.set( w.clouds)
         self.sunrise.set(w.sunrise_time()*1000)
         self.sunset.set(w.sunset_time()*1000)
-        self.weather_code.set(w.weather_code)
-        self.weather_icon.info(w.weather_icon_name)
+        self.weather.info( { 'code': w.weather_code, 'icon': w.weather_icon_name } )
         self.visibility_distance.set(w.visibility_distance)
         
         #If there is no data recorded from rain then return 0, otherwise #return the actual data
@@ -133,11 +129,6 @@ class AppMetrics:
 
         self.uvi.set( uvi.value )
 
-        # Update Prometheus metrics with application metrics
-        self.current_requests.set(1)
-        self.pending_requests.set(2)
-        self.total_uptime.set(3)
-        self.health.state("healthy")
         LOG.info("Update prometheus")
 
 def main():
