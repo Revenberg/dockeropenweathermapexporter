@@ -7,7 +7,7 @@ import logging
 
 LOG_LEVEL = os.getenv("LOG_LEVEL", "DEBUG")
 
-logging.basicConfig(level=LOG_LEVEL, format=LOGFORMAT)
+logging.basicConfig(level=LOG_LEVEL, format='%(asctime)-15s %(message)s')
 LOG = logging.getLogger("openweathermap-export")
 
 class AppMetrics:
