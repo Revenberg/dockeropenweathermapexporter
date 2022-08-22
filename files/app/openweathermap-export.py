@@ -36,7 +36,7 @@ prom_msg_counter = Counter(
 pool_frequency = int(os.getenv("POOL_FREQUENCY", "300"))
 
 config_dict = config.get_default_config()
-config_dict['language'] = Surhuisterveen,NL
+config_dict['language'] = WEATHER_LANGUAGE
 
 def exporting(data):
     for metric, value in data.items():
