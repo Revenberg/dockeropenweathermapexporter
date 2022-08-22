@@ -38,36 +38,6 @@ pool_frequency = int(os.getenv("POOL_FREQUENCY", "300"))
 config_dict = config.get_default_config()
 config_dict['language'] = WEATHER_LANGUAGE
 
-def exporting(data):
-    for metric, value in data.items():
-        # when value is a dict recursivley call _parse_metrics to handle these messages
-        LOG.info( value )
-        if isinstance(value, dict):
-            LOG.debug("parsing dict %s: %s", metric, value)
-            _parse_metrics(value, topic, f"{prefix}{metric}_")
-            continue
-
-        try:
-            metric_value = _parse_metric(value)
-        except ValueError as err:
-            LOG.debug("Failed to convert %s: %s", metric, err)
-            continue
-
-        # create metric if does not exist
-        #prom_metric_name = f"{PROMETHEUS_PREFIX}{metric}".replace(".", "").replace(" ", "_")
-        prom_metric_name = re.sub(r"\((.*?)\)", "", prom_metric_name)
-
-        prom_metric_name=topic + "_" + prom_metric_name
-
-        if not prom_metrics.get(prom_metric_name):
-            prom_metrics[prom_metric_name] = Gauge(
-                prom_metric_name, "metric generated from MQTT message.", [TOPIC_LABEL]
-            )
-            
-        # expose the metric to prometheus
-        prom_metrics[prom_metric_name].labels(**{TOPIC_LABEL: topic}).set(metric_value)
-        LOG.debug("new value for %s: %s", prom_metric_name, metric_value)
-
 def getData(config_dict):
     owm = OWM(APIKEY, config_dict)
     mgr = owm.weather_manager()
@@ -86,7 +56,7 @@ def getData(config_dict):
         LOG.info("creating prometheus metric: %s", prom_metric_name)
 
     # increment received message counter
-    prom_msg_counter.labels(**{TOPIC_LABEL: topic}).inc()
+    prom_msg_counter.labels(**{PROMETHEUS_PREFIX: PROMETHEUS_LABEL}).inc()
 
     # expose the metric to prometheus
     
