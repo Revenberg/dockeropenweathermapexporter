@@ -59,10 +59,6 @@ def getData(config_dict):
     prom_msg_counter.labels(**{PROMETHEUS_PREFIX: PROMETHEUS_LABEL}).inc()
 
     # expose the metric to prometheus
-    
-
-    LOG.debug("new value for %s: %s", prom_metric_name, i)
-
     values = dict()
     prom_metrics[prom_metric_name].labels(**{PROMETHEUS_LABEL: PROMETHEUS_LABEL}).set( {"status" : w.status} )
 
