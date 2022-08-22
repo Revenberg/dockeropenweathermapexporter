@@ -3,7 +3,10 @@
 import os
 import time
 from prometheus_client import start_http_server, Gauge, Enum
-import requests
+import logging
+
+logging.basicConfig(level=LOG_LEVEL, format=LOGFORMAT)
+LOG = logging.getLogger("openweathermap-export")
 
 class AppMetrics:
     """
@@ -43,6 +46,7 @@ class AppMetrics:
         self.pending_requests.set(2)
         self.total_uptime.set(3)
         self.health.state("healthy")
+        LOG.info("Update prometheus")
 
 def main():
     """Main entry point"""
@@ -56,6 +60,7 @@ def main():
         polling_interval_seconds=polling_interval_seconds
     )
     start_http_server(exporter_port)
+    LOG.info("start prometheus port: %s", exporter_port)
     app_metrics.fetch()
     app_metrics.run_metrics_loop()
 
