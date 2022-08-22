@@ -21,7 +21,7 @@ if [ $ex == true ]; then
 
     docker image build -t revenberg/openweathermapexporter:latest .
 
-    #docker push revenberg/openweathermapexporter:latest
+    docker push revenberg/openweathermapexporter:latest
 
     # testing: 
 
