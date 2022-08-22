@@ -2,7 +2,7 @@
 
 import os
 import time
-from prometheus_client import start_http_server, Gauge, Enum
+from prometheus_client import start_http_server, Gauge, Enum, Info
 import logging
 
 LOG_LEVEL = os.getenv("LOG_LEVEL", "DEBUG")
@@ -25,6 +25,22 @@ class AppMetrics:
         self.pending_requests = Gauge("app_requests_pending", "Pending requests")
         self.total_uptime = Gauge("app_uptime", "Uptime")
         self.health = Enum("app_health", "Health", states=["healthy", "unhealthy"])
+
+        self.status = Info('status', 'status')
+        self.detailed_status = Info('detailed_status', 'detailed_status')
+        self.wind_speed = Gauge('wind_speed', 'wind_speed')
+        self.wind_direction_deg = Gauge('wind_direction_deg', 'wind_direction_deg')
+        self.humidity = Gauge('humidity', 'humidity')
+        self.temp = Gauge('temp', 'temp')
+        self.pressure = Gauge('pressure', 'pressure')
+        self.clouds = Gauge('clouds', 'clouds')
+        self.sunrise = Gauge('sunrise', 'sunrise')
+        self.sunset = Gauge('sunset', 'sunset')
+        self.weather_code = Gauge('weather_code', 'weather_code')
+        self.weather_icon = Info('weather_icon', 'weather_icon')
+        self.visibility_distance = Gauge('visibility_distance', 'visibility_distance')
+        self.lastrain = Gauge('lastrain', 'lastrain')
+        self.lastsnow = Gauge('lastsnow', 'lastsnow')
 
     def run_metrics_loop(self):
         """Metrics fetching loop"""
