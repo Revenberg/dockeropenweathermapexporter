@@ -56,6 +56,7 @@ def main():
         polling_interval_seconds=polling_interval_seconds
     )
     start_http_server(exporter_port)
+    app_metrics.fetch()
     app_metrics.run_metrics_loop()
 
 if __name__ == "__main__":
