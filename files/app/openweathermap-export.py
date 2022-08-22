@@ -53,7 +53,8 @@ class AppMetrics:
         self.clouds = Gauge(PROMETHEUS_PREFIX + 'clouds', 'clouds')
         self.sunrise = Gauge(PROMETHEUS_PREFIX + 'sunrise', 'sunrise')
         self.sunset = Gauge(PROMETHEUS_PREFIX + 'sunset', 'sunset')
-        self.weather = Info(PROMETHEUS_PREFIX + 'weather_icon', 'weather_icon')
+        self.weather_icon_code = Gauge(PROMETHEUS_PREFIX + 'weather_icon_code', 'weather_icon_code')
+        self.weather_icon_name = Info(PROMETHEUS_PREFIX + 'weather_icon_name', 'weather_icon_name')
         self.visibility_distance = Gauge(PROMETHEUS_PREFIX + 'visibility_distance', 'visibility_distance')
         self.lastrain = Gauge(PROMETHEUS_PREFIX + 'lastrain', 'lastrain')
         self.lastsnow = Gauge(PROMETHEUS_PREFIX + 'lastsnow', 'lastsnow')
@@ -106,7 +107,8 @@ class AppMetrics:
         self.clouds.set( w.clouds)
         self.sunrise.set(w.sunrise_time()*1000)
         self.sunset.set(w.sunset_time()*1000)
-        self.weather.info( { 'code': w.weather_code, 'icon': w.weather_icon_name } )
+        self.weather_icon_code.set(w.weather_code)
+        self.weather_icon_name.info({ 'icon': w.weather_icon_name } )
         self.visibility_distance.set(w.visibility_distance)
         
         #If there is no data recorded from rain then return 0, otherwise #return the actual data
