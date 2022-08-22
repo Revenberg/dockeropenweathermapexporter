@@ -42,7 +42,7 @@ class AppMetrics:
         self.current_requests.set(1)
         self.pending_requests.set(2)
         self.total_uptime.set(3)
-        self.health.state(4)
+        self.health.state("healthy")
 
 def main():
     """Main entry point"""
