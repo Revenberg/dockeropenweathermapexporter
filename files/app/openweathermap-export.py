@@ -16,6 +16,7 @@ PROMETHEUS_PORT   = int(os.getenv("PROMETHEUS_PORT", "9003"))
 APIKEY           = os.getenv("APIKEY", "")
 WEATHER_COUNTRY  = os.getenv("WEATHER_COUNTRY", "Surhuisterveen,NL")
 WEATHER_LANGUAGE = os.getenv("WEATHER_LANGUAGE", "NL")
+polling_interval_seconds = int(os.getenv("POLLING_INTERVAL_SECONDS", "600"))    
 
 LOGFORMAT = '%(asctime)-15s %(message)s'
 
@@ -134,9 +135,7 @@ class AppMetrics:
         LOG.info("Update prometheus")
 
 def main():
-    """Main entry point"""
-
-    polling_interval_seconds = int(os.getenv("POLLING_INTERVAL_SECONDS", "600"))    
+    """Main entry point"""    
     
     app_metrics = AppMetrics(
         PROMETHEUS_PREFIX=PROMETHEUS_PREFIX,
