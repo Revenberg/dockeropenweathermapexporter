@@ -61,14 +61,14 @@ def getData(config_dict):
     # expose the metric to prometheus
     values = dict()
 
-    prom_metric_name = "Weather " + w.status
+    prom_metric_name = "Weather_" + w.status
     if not prom_metrics.get(prom_metric_name):
         prom_metrics[prom_metric_name] = Gauge(
-            prom_metric_name, "Weather " + w.status, ["status"], PROMETHEUS_LABEL
+            prom_metric_name, prom_metric_name, [ prom_metric_name ], PROMETHEUS_LABEL
         )
         
     # expose the metric to prometheus
-    prom_metrics[prom_metric_name].labels(**{PROMETHEUS_LABEL: "Weather " + w.status}).set( 1)
+    prom_metrics[prom_metric_name].labels(**{PROMETHEUS_LABEL: prom_metric_name}).set( 1)
     
     
     prom_metrics[prom_metric_name].labels(**{PROMETHEUS_LABEL: "status." + w.status}).set( 1 )
