@@ -66,7 +66,6 @@ def getData(config_dict):
     wind  = w.wind()
 
     prom_metrics[prom_metric_name].labels(**{PROMETHEUS_LABEL: "wind_speed" }).set( wind ["speed"] )
-    values['wind_speed']  = wind ["speed"]
     values['wind_direction_deg']  = wind ["deg"]
     values['humidity']  = w.humidity
 
@@ -118,11 +117,18 @@ def getData(config_dict):
 
     # Print the data
     LOG.debug(values)
-   
-try:
-    while True:
-        getData(config_dict)
-        time.sleep(pool_frequency)
-except Exception as e:
-    print(e)
-    pass
+
+def main():
+    # start prometheus server
+    start_http_server(PROMETHEUS_PORT)
+
+    try:
+        while True:
+            getData(config_dict)
+            time.sleep(pool_frequency)
+    except Exception as e:
+        print(e)
+        pass
+
+if __name__ == '__main__':
+        main()
