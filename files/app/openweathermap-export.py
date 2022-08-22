@@ -5,6 +5,8 @@ import time
 from prometheus_client import start_http_server, Gauge, Enum
 import logging
 
+LOG_LEVEL = os.getenv("LOG_LEVEL", "DEBUG")
+
 logging.basicConfig(level=LOG_LEVEL, format=LOGFORMAT)
 LOG = logging.getLogger("openweathermap-export")
 
