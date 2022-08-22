@@ -39,7 +39,7 @@ class AppMetrics:
         self.PROMETHEUS_PREFIX = PROMETHEUS_PREFIX
         self.APIKEY = APIKEY
         self.config_dict = config_dict
-        self.WEATHER_LANGUAGE = WEATHER_LANGUAGE
+        self.WEATHER_COUNTRY = WEATHER_COUNTRY        
         
         self.polling_interval_seconds = polling_interval_seconds
 
