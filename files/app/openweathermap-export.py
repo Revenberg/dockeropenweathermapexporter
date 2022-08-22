@@ -8,7 +8,7 @@ from pyowm import OWM
 from pyowm.utils import config
 from pyowm.utils import timestamps
 
-LOG_LEVEL = os.getenv("LOG_LEVEL", "DEBUG")
+LOG_LEVEL = os.getenv("LOG_LEVEL", "WARN")
 
 PROMETHEUS_PREFIX = os.getenv("PROMETHEUS_PREFIX", "openweathermap")
 PROMETHEUS_PORT   = int(os.getenv("PROMETHEUS_PORT", "9003"))
