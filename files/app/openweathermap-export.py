@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
 """openweathermap-export"""
+from pyowm import OWM
+from pyowm.utils import config
+from pyowm.utils import timestamps
 
 import logging
 import json
