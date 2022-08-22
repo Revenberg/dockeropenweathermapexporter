@@ -60,12 +60,12 @@ def getData(config_dict):
 
     # expose the metric to prometheus
     values = dict()
-    prom_metrics[prom_metric_name].labels(**{PROMETHEUS_LABEL: "status"}).set( w.status )
-
-    values['detailed_status']  = w.detailed_status  # detailed version of status (eg. 'light rain')
-
+    prom_metrics[prom_metric_name].labels(**{PROMETHEUS_LABEL: "status." + w.status}).set( 1 )
+    prom_metrics[prom_metric_name].labels(**{PROMETHEUS_LABEL: "status." + w.detailed_status}).set( 1 )
+    
     wind  = w.wind()
 
+    prom_metrics[prom_metric_name].labels(**{PROMETHEUS_LABEL: "wind_speed" }).set( wind ["speed"] )
     values['wind_speed']  = wind ["speed"]
     values['wind_direction_deg']  = wind ["deg"]
     values['humidity']  = w.humidity
