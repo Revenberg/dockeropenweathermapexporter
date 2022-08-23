@@ -137,16 +137,19 @@ class AppMetrics:
 def main():
     """Main entry point"""    
     
-    app_metrics = AppMetrics(
-        PROMETHEUS_PREFIX=PROMETHEUS_PREFIX,
-        APIKEY=APIKEY,
-        WEATHER_COUNTRY=WEATHER_COUNTRY,
-        WEATHER_LANGUAGE=WEATHER_LANGUAGE, 
-        polling_interval_seconds=polling_interval_seconds
-    )
-    start_http_server(PROMETHEUS_PORT)
-    LOG.info("start prometheus port: %s", PROMETHEUS_PORT)
-    app_metrics.run_metrics_loop()
+    if APIKEY != "":
+        app_metrics = AppMetrics(
+            PROMETHEUS_PREFIX=PROMETHEUS_PREFIX,
+            APIKEY=APIKEY,
+            WEATHER_COUNTRY=WEATHER_COUNTRY,
+            WEATHER_LANGUAGE=WEATHER_LANGUAGE, 
+            polling_interval_seconds=polling_interval_seconds
+        )
+        start_http_server(PROMETHEUS_PORT)
+        LOG.info("start prometheus port: %s", PROMETHEUS_PORT)
+        app_metrics.run_metrics_loop()
+    else:
+        LOG.error("APIKEY is invalid")
 
 if __name__ == "__main__":
     main()
