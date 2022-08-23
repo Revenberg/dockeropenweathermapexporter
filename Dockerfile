@@ -1,4 +1,7 @@
 FROM python:alpine3.7
+
+EXPOSE 9003
+
 ENV  PROMETHEUS_PREFIX openweathermap
 ENV  APIKEY ''
 ENV  WEATHER_COUNTRY NL
